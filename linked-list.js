@@ -1,13 +1,13 @@
 /** Node: node for a singly linked list. */
 
-// class Node {
-//   val = null;
-//   next = null;
+class Node {
+  val = null;
+  next = null;
 
-//   constructor(val) {
-//     this.val = val;
-//   }
-// }
+  constructor(val) {
+    this.val = val;
+  }
+}
 
 /** LinkedList: chained together nodes. */
 
@@ -133,6 +133,37 @@ class LinkedList {
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
+    if((this.length > 0) && (idx < 0 || idx > this.length)) {
+      throw new Error('Invalid index');
+    }
+    
+    const newNode = new Node(val);
+    this.length += 1;
+    if (idx === 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+
+    if (idx = this.length) {
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
+
+    if (!this.length) {
+      this.head = newNode;
+      this.tail = newNode;
+    }
+
+    let previousNode = this.head;
+    let current = this.head;
+    
+    for (let i = 0; i < idx; i++){
+      previousNode = current;
+      current = current.next;
+    }
+    
+    previousNode.next = newNode;
+    newNode.next = current;
 
   }
 
@@ -148,8 +179,5 @@ class LinkedList {
     
   }
 }
-
-// let newlist = new LinkedList([new Node('ant')])
-// console.log(newlist.pop())
 
 module.exports = LinkedList;
