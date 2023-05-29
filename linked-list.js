@@ -1,13 +1,13 @@
 /** Node: node for a singly linked list. */
 
-class Node {
-  val = null;
-  next = null;
+// class Node {
+//   val = null;
+//   next = null;
 
-  constructor(val) {
-    this.val = val;
-  }
-}
+//   constructor(val) {
+//     this.val = val;
+//   }
+// }
 
 /** LinkedList: chained together nodes. */
 
@@ -50,43 +50,84 @@ class LinkedList {
   /** pop(): return & remove last item. */
 
   pop() {
-    let response = this.tail;
+    //let response = this.tail;
     let current = this.head;
+    let secondToLastNode = this.head;
+
     if (current === null) {
       throw new Error('This list is empty!')
     }
-    if (this.length === 1) {
+
+    
+    // Traversing
+    while (current.next) {
+      secondToLastNode = current;
+      current = current.next;
+    }
+    
+    secondToLastNode.next = null;
+    this.tail = secondToLastNode;
+    
+    
+    this.length -= 1;
+
+    if (!this.length) {
       this.head = null;
       this.tail = null;
     }
-    while (current.next !== null) {
-      if (current.next !== this.tail) {
-        current = current.next;
-      }
-      break;
-    }
-    this.tail = current;
-    this.tail.next = null;
-    this.length -= 1;
-    return response.val;
+
+    return current.val;
   }
 
   /** shift(): return & remove first item. */
 
   shift() {
+    if(!this.length) {
+      throw new Error('This list is empty!');
+    }
 
+    let current = this.head;
+    this.head = current.next;
+    this.length -= 1;
+
+    if (!this.length) {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return current.val
   }
 
   /** getAt(idx): get val at idx. */
 
   getAt(idx) {
+    if(idx < 0 || idx > this.length - 1) {
+      throw new Error('Invalid index');
+    }
 
+    let current = this.head;
+
+    for(let i = 0; i < idx; i++) {
+      current = current.next;
+    }
+
+    return current.val;
   }
 
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
+    if(idx < 0 || idx > this.length - 1) {
+      throw new Error('Invalid index');
+    }
 
+    let current = this.head;
+    for(let i = 0; i < idx; i++) {
+      current = current.next;
+    }
+
+    current.val = val;
+    return current.val;
   }
 
   /** insertAt(idx, val): add node w/val before idx. */
